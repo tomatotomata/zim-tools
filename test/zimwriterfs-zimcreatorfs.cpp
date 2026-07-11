@@ -24,6 +24,7 @@
 #include "gtest/gtest.h"
 
 #include "../src/zimwriterfs/zimcreatorfs.h"
+#include "../src/zimwriterfs/tools.h"
 #include "../src/tools.h"
 
 
@@ -177,4 +178,14 @@ TEST(ZimCreatorFSTest, ParseRedirect)
             );
       }, std::runtime_error);
     }
+}
+
+
+TEST(ZimwriterfsTools, extractRedirectUrlFromHtmlHeadValue)
+{
+  EXPECT_EQ(extractRedirectUrlFromHtmlHeadValue("0;URL=foobar"), "foobar");
+  EXPECT_EQ(extractRedirectUrlFromHtmlHeadValue(" 0 ; URL=foobar "), "foobar");
+  EXPECT_EQ(extractRedirectUrlFromHtmlHeadValue(" 22 ;url=foobar "), "foobar");
+  EXPECT_EQ(extractRedirectUrlFromHtmlHeadValue(" 22 ;url='foobar' "), "foobar");
+  EXPECT_EQ(extractRedirectUrlFromHtmlHeadValue("0;url=\"foobar\" "), "foobar");
 }
